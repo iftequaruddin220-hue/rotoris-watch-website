@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rotoris Shopping Cart">
+    <title>Rotoris - Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-page {
+            padding: 40px 20px;
+            background: var(--light-bg);
+            min-height: 100vh;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cart-items {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.3rem;
+        }
+
+        .quantity-control button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .quantity-control input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            background: transparent;
+        }
+
+        .btn-remove {
+            background: #ff6b6b;
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-remove:hover {
+            background: #ff5252;
+        }
+
+        .cart-summary {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 1rem;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-checkout:hover {
+            background: #c99e1a;
+        }
+
+        .btn-continue-shopping {
+            width: 100%;
+            padding: 0.8rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-continue-shopping:hover {
+            background: var(--secondary-color);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>ROTORIS</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#collections">Collections</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="cart.html" class="btn-shop">Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Cart Page -->
+    <div class="cart-page">
+        <div class="container">
+            <h2 class="page-title">Shopping Cart</h2>
+
+            <div class="cart-container">
+                <!-- Cart Items -->
+                <div class="cart-items" id="cart-items">
+                    <!-- Items will be loaded here by JavaScript -->
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Order Summary</h3>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Subtotal</span>
+                        <span class="summary-value" id="subtotal">$0.00</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Shipping</span>
+                        <span class="summary-value" id="shipping">$0.00</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Tax</span>
+                        <span class="summary-value" id="tax">$0.00</span>
+                    </div>
+
+                    <div class="summary-item" style="border-bottom: 2px solid var(--secondary-color); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                        <span style="font-size: 1.2rem; font-weight: bold;">Total</span>
+                        <span class="summary-total" id="total">$0.00</span>
+                    </div>
+
+                    <button class="btn-checkout" onclick="checkout()">Proceed to Checkout</button>
+                    <a href="products.html?collection=classic" class="btn-continue-shopping">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Rotoris Luxury Watches. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load and display cart items
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('rotorisCart')) || [];
+            const cartItemsDiv = document.getElementById('cart-items');
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Add some luxury watches to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cartItemsDiv.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">${item.price}</div>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button onclick="decreaseQuantity(${index})">−</button>
+                            <input type="number" value="1" min="1" readonly>
+                            <button onclick="increaseQuantity(${index})">+</button>
+                        </div>
+                        <button class="btn-remove" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        // Update cart summary
+        function updateSummary() {
+            const cart = JSON.parse(localStorage.getItem('rotorisCart')) || [];
+            const subtotal = cart.reduce((sum, item) => {
+                const price = parseFloat(item.price.replace('$', ''));
+                return sum + price;
+            }, 0);
+
+            const shipping = subtotal > 0 ? 0 : 0; // Free shipping
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Remove item from cart
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('rotorisCart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('rotorisCart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        // Increase quantity
+        function increaseQuantity(index) {
+            alert('Quantity management coming soon!');
+        }
+
+        // Decrease quantity
+        function decreaseQuantity(index) {
+            alert('Quantity management coming soon!');
+        }
+
+        // Checkout
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem('rotorisCart')) || [];
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            alert('Thank you for your order! Redirecting to payment...');
+            // In a real app, this would redirect to a payment gateway
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+</html>
