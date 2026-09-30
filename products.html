@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rotoris Watch Collections - Premium luxury watches">
+    <title>Rotoris - Product Collections</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .products-page {
+            padding: 40px 20px;
+            background: var(--light-bg);
+            min-height: 100vh;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-transform: capitalize;
+        }
+
+        .filters {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .products-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-detail-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-detail-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 300px;
+            width: 100%;
+            background: linear-gradient(135deg, #2d2d2d, #555);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .product-rating {
+            color: #ff9800;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #c99e1a;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 0.8rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>ROTORIS</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#collections">Collections</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="cart.html" class="btn-shop">Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Products Page -->
+    <div class="products-page">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span id="current-collection">Collection</span>
+            </div>
+
+            <h2 class="page-title" id="collection-title">Collection</h2>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="price-filter">Price Range</label>
+                    <select id="price-filter">
+                        <option value="">All Prices</option>
+                        <option value="0-500">Under $500</option>
+                        <option value="500-1000">$500 - $1000</option>
+                        <option value="1000-1500">$1000 - $1500</option>
+                        <option value="1500">Above $1500</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-filter">Sort By</label>
+                    <select id="sort-filter">
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-display" id="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Rotoris Luxury Watches. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Product database
+        const allProducts = {
+            classic: [
+                { id: 1, name: 'Rotoris Classic Black', price: 899, rating: 4.8, specs: 'Automatic movement, sapphire crystal' },
+                { id: 2, name: 'Rotoris Elegance', price: 1099, rating: 4.9, specs: 'Swiss movement, leather strap' },
+                { id: 3, name: 'Rotoris Heritage', price: 1199, rating: 4.7, specs: 'Vintage design, automatic movement' },
+                { id: 4, name: 'Rotoris Signature', price: 999, rating: 4.6, specs: 'Date window, water resistant' }
+            ],
+            gold: [
+                { id: 5, name: 'Rotoris Golden Hour', price: 1599, rating: 5.0, specs: '18K gold plated, sapphire crystal' },
+                { id: 6, name: 'Rotoris Gold Luxury', price: 1799, rating: 4.9, specs: 'Solid gold case, diamond markers' },
+                { id: 7, name: 'Rotoris Prestige Gold', price: 1899, rating: 4.8, specs: 'Premium gold finish, automatic' },
+                { id: 8, name: 'Rotoris Gold Elite', price: 2099, rating: 4.9, specs: 'Exclusive gold collection' }
+            ],
+            silver: [
+                { id: 9, name: 'Rotoris Silver Elegance', price: 899, rating: 4.7, specs: 'Stainless steel, sleek design' },
+                { id: 10, name: 'Rotoris Pearl Silver', price: 999, rating: 4.8, specs: 'Pearl dial, silver case' },
+                { id: 11, name: 'Rotoris Silver Shine', price: 1099, rating: 4.6, specs: 'High polish silver, sapphire' },
+                { id: 12, name: 'Rotoris Silver Prestige', price: 1299, rating: 4.9, specs: 'Premium silver, water resistant' }
+            ],
+            sport: [
+                { id: 13, name: 'Rotoris Sport Black', price: 799, rating: 4.8, specs: 'Durable, 100m water resistant' },
+                { id: 14, name: 'Rotoris Adventure', price: 899, rating: 4.7, specs: 'Rugged design, chronograph' },
+                { id: 15, name: 'Rotoris Sport Blue', price: 849, rating: 4.9, specs: 'Blue dial, anti-shock' },
+                { id: 16, name: 'Rotoris Extreme', price: 1099, rating: 4.8, specs: 'Professional grade, 200m resistant' }
+            ]
+        };
+
+        // Get collection from URL params
+        function getCollection() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('collection') || 'classic';
+        }
+
+        // Display products
+        function displayProducts(collection) {
+            const products = allProducts[collection] || allProducts.classic;
+            const grid = document.getElementById('products-grid');
+            
+            grid.innerHTML = products.map(product => `
+                <div class="product-detail-card">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <h4 class="product-name">${product.name}</h4>
+                        <div class="product-rating">★★★★★ ${product.rating}</div>
+                        <p class="product-specs">${product.specs}</p>
+                        <p class="product-price">$${product.price}</p>
+                        <div class="product-actions">
+                            <button class="btn-primary" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                            <button class="btn-secondary" onclick="viewDetails(${product.id})">Details</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add to cart
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('rotorisCart')) || [];
+            cart.push({ name, price, id: Date.now() });
+            localStorage.setItem('rotorisCart', JSON.stringify(cart));
+            alert(`${name} added to cart!`);
+        }
+
+        // View product details
+        function viewDetails(id) {
+            alert(`Product ID: ${id} - Detailed view coming soon!`);
+        }
+
+        // Initialize page
+        window.addEventListener('DOMContentLoaded', () => {
+            const collection = getCollection();
+            document.getElementById('collection-title').textContent = collection.charAt(0).toUpperCase() + collection.slice(1);
+            document.getElementById('current-collection').textContent = collection.charAt(0).toUpperCase() + collection.slice(1);
+            displayProducts(collection);
+        });
+    </script>
+</body>
+</html>
